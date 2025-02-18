@@ -21,20 +21,22 @@ def read_data(filepath):
 
 async def main():
     url = "https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-DS0321EN-SkillsNetwork/datasets/dataset_part_2.csv"
-    filepath = "dataset_part_2.csv"
-    await download_file(url, "dataset_part_2.csv")
+    filepath = "../dataset_part_2.csv"
+    await download_file(url, "../dataset_part_2.csv")
 
     df = read_data(filepath)
     pd.set_option('display.max_rows', None)
     pd.set_option('display.max_columns', None)
     print(df.head(10))
 
+    plt.style.use("dark_background")
     sns.catplot(y="PayloadMass", x="FlightNumber", hue="Class", data=df, aspect=5)
     plt.xlabel("Flight Number", fontsize=20)
     plt.ylabel("Payload Mass", fontsize=20)
     plt.show()
 
     # Task 1
+    plt.style.use("dark_background")
     plt.figure(figsize=(14, 8))
     sns.scatterplot(x="FlightNumber", y="LaunchSite", hue="Class", data=df)
     plt.xlabel("Flight Number", fontsize=20)
@@ -51,6 +53,7 @@ async def main():
     plt.show()
 
     # Task 3
+    plt.style.use("dark_background")
     plt.figure(figsize=(14, 8))
     palette = sns.color_palette("Set2", len(df['Orbit'].unique()))
     sns.barplot(x="Orbit", y="Class", data=df, palette=palette)
@@ -60,6 +63,7 @@ async def main():
     plt.show()
 
     # Task 4
+    plt.style.use("dark_background")
     plt.figure(figsize=(14, 8))
     sns.scatterplot(data=df, x='FlightNumber', y='Orbit', hue='Class')
     plt.title('Relationship between Flight Number and Orbit Type')
@@ -69,6 +73,7 @@ async def main():
     plt.show()
 
     # Task 5
+    plt.style.use("dark_background")
     plt.figure(figsize=(14, 8))
     sns.scatterplot(data=df, x='PayloadMass', y='Orbit', hue='Class')
     plt.title('Relationship between Payload Mass and Orbit Type')
@@ -88,6 +93,7 @@ async def main():
     df['Year'] = df['Year'].astype(int)
     avg_success_rate_per_year = df.groupby('Year')['Class'].mean()
     avg_success_rate_per_year = avg_success_rate_per_year.sort_index()
+    plt.style.use("dark_background")
     plt.figure(figsize=(14, 8))
     avg_success_rate_per_year.plot(kind='line', marker='o', color='b', linewidth=2)
     plt.title('Average Launch Success Rate Trend by Year')
