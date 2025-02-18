@@ -37,8 +37,8 @@ async def main():
     url2 = 'https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-DS0321EN-SkillsNetwork/datasets/dataset_part_3.csv'
     filepath1 = "dataset_part_2.csv"
     filepath2 = "dataset_part_3.csv"
-    await download_file(url1, "dataset_part_2.csv")
-    await download_file(url2, "dataset_part_3.csv")
+    await download_file(url1, "../dataset_part_2.csv")
+    await download_file(url2, "../dataset_part_3.csv")
 
     df, X = read_data(filepath1, filepath2)
     pd.set_option('display.max_rows', None)
@@ -49,12 +49,13 @@ async def main():
     def plot_confusion_matrix(y, y_predict):
         cm = confusion_matrix(y, y_predict)
         ax = plt.subplot()
+        plt.style.use("dark_background")
         sns.heatmap(cm, annot=True, ax=ax)
         ax.set_xlabel('Predicted labels')
         ax.set_ylabel('True labels')
         ax.set_title('Confusion Matrix')
-        ax.xaxis.set_ticklabels(['did not land', 'land'])
-        ax.yaxis.set_ticklabels(['did not land', 'landed'])
+        ax.xaxis.set_ticklabels(['did not land', 'land'], color='white')
+        ax.yaxis.set_ticklabels(['did not land', 'landed'], color='white')
         plt.show()
 
     # Task 1
@@ -155,7 +156,6 @@ async def main():
                   'Decision tree': [tree_cv.best_score_], 'KNN': [knn_cv.best_score_]}
     df_best_score = pd.DataFrame.from_dict(algo_score, orient='index', columns=['Best scores'])
     df_best_score = df_best_score.reset_index().rename(columns={'index': 'Model', 'Best scores': 'Best score'})
-    df_best_score = df_best_score.drop(columns=['index'])
     print(df_best_score)
 
     best_accuracy = max(logreg_cv.best_score_, svm_cv.best_score_, tree_cv.best_score_, knn_cv.best_score_)
